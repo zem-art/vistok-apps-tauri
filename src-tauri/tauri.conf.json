@@ -12,9 +12,12 @@
   "app": {
     "windows": [
       {
-        "title": "vistok-tauri-apps",
-        "width": 800,
-        "height": 600
+        "title": "Vistok - Guest Management System",
+        "width": 1250,
+        "height": 850,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
       }
     ],
     "security": {
