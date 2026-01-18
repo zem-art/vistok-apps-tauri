@@ -1,7 +1,11 @@
 import { MdDashboard } from "react-icons/md";
 
 
-export const LoginView = ({ onBack }: any) => {
+export const LoginView = ({ onLoginSuccess }: any) => {
+    const handleLogin = () => {
+        // Lakukan validasi user/pass di sini jika perlu
+        onLoginSuccess(); // Ubah state di App menjadi true
+    }
     return (
         <div className="min-h-screen bg-[#F0F2F5] flex items-center justify-center p-6 text-left">
             <div className="bg-white w-full max-w-md p-12 rounded-[50px] shadow-2xl border border-white">
@@ -20,7 +24,7 @@ export const LoginView = ({ onBack }: any) => {
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-2">Password</label>
                         <input type="password" className="w-full p-5 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-indigo-600" placeholder="••••••••" />
                     </div>
-                    <button className="w-full py-5 bg-slate-900 text-white font-black rounded-3xl shadow-lg hover:bg-indigo-600 transition-all mt-4 uppercase tracking-[0.2em] text-xs">
+                    <button onClick={handleLogin} className="cursor-pointer w-full py-5 bg-slate-900 text-white font-black rounded-3xl shadow-lg hover:bg-indigo-600 transition-all mt-4 uppercase tracking-[0.2em] text-xs">
                         Otorisasi Akses
                     </button>
                 </div>
