@@ -1,15 +1,17 @@
 import { useState } from "react";
 import {
   IoPersonAddSharp, IoListSharp, IoSettingsSharp, IoNotifications,
-  IoArrowBack, IoChevronForward, IoCube, IoCalendar, IoInformationCircle
+  IoArrowBack, IoCube, IoCalendar, IoInformationCircle
 } from "react-icons/io5";
-import { FaUserCheck, FaBuildingUser, FaClock, FaBoxOpen, FaTruckFast } from "react-icons/fa6";
 import { MdDashboard } from "react-icons/md";
-
+import DashboardView from "./apps/dashboardView";
+import CheckinForm from "./apps/checkinForm";
+import ParcelForm from "./apps/parcelForm";
+import PlaceholderPage from "./apps/not_found";
 
 type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings";
 
-const App = () => {
+export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
 
   // DATA GRID DINAMIS
@@ -30,6 +32,29 @@ const App = () => {
     amber: "bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:shadow-amber-200/50",
     slate: "bg-slate-50 text-slate-600 group-hover:bg-slate-900 group-hover:shadow-slate-300/50",
   };
+
+  // Fungsi untuk memanggil konten halaman berdasarkan tab aktif
+  const renderContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <DashboardView onSelect={(id: any) => setActiveTab(id)} menuItems={menuItems} colorMap={colorMap} />;
+      case "checkin":
+        return <CheckinForm onBack={() => setActiveTab("dashboard")} />;
+      case "parcel":
+        return <ParcelForm onBack={() => setActiveTab("dashboard")} />;
+      case "list":
+        return <PlaceholderPage title="Riwayat Log" onBack={() => setActiveTab("dashboard")} />;
+      case "appointments":
+        return <PlaceholderPage title="Janji Temu" onBack={() => setActiveTab("dashboard")} />;
+      case "info":
+        return <PlaceholderPage title="Pusat Informasi" onBack={() => setActiveTab("dashboard")} />;
+      case "settings":
+        return <PlaceholderPage title="Sistem & Pengaturan" onBack={() => setActiveTab("dashboard")} />;
+      default:
+        return <DashboardView onSelect={(id: any) => setActiveTab(id)} menuItems={menuItems} colorMap={colorMap} />;
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] text-slate-800 font-sans p-6 md:p-10 text-left">
@@ -66,132 +91,12 @@ const App = () => {
         {activeTab !== "dashboard" && (
           <button
             onClick={() => setActiveTab("dashboard")}
-            className="flex items-center gap-2 font-black text-slate-400 hover:text-indigo-600 transition-colors mb-8 text-sm uppercase tracking-widest"
+            className="cursor-pointer flex items-center gap-2 font-black text-slate-400 hover:text-indigo-600 transition-colors mb-8 text-sm uppercase tracking-widest"
           >
             <IoArrowBack size={18} /> Kembali ke Menu Utama
           </button>
         )}
-
-        {/* 1. VIEW DASHBOARD */}
-        {activeTab === "dashboard" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id as TabType)}
-                className="group cursor-pointer bg-white p-8 rounded-[45px] shadow-sm hover:shadow-2xl transition-all duration-500 border border-transparent hover:border-white flex flex-col items-start text-left hover:-translate-y-2"
-              >
-                <div className={`w-16 h-16 rounded-[22px] flex items-center justify-center mb-6 transition-all duration-500 group-hover:text-white ${colorMap[item.color]}`}>
-                  {item.icon}
-                </div>
-                <h3 className="text-2xl font-black mb-3 text-slate-900 leading-none">{item.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-8">{item.desc}</p>
-                <div className="mt-auto flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
-                  Akses Menu <IoChevronForward className="text-indigo-600" />
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* FORM TAMU VIEW */}
-        {activeTab === "checkin" && (
-          <div className="max-w-4xl mx-auto animate-in zoom-in-95 duration-500 text-left">
-            {/* <button onClick={() => setActiveTab("dashboard")} className="flex items-center gap-2 font-black text-slate-400 hover:text-indigo-600 transition-colors mb-10 text-sm uppercase tracking-widest">
-              <IoArrowBack size={18} /> Kembali
-            </button> */}
-            <div className="bg-white rounded-[50px] shadow-2xl shadow-slate-200/50 overflow-hidden flex flex-col md:flex-row border border-white">
-              <div className="md:w-[35%] bg-indigo-600 p-12 text-white flex flex-col justify-between">
-                <div>
-                  <h2 className="text-4xl font-black leading-tight mb-6">Buku Tamu Digital.</h2>
-                  <p className="text-indigo-100 text-sm leading-relaxed font-medium">Lengkapi identitas pengunjung untuk keperluan administrasi keamanan dan verifikasi data.</p>
-                </div>
-                <div className="bg-indigo-500/30 p-4 rounded-2xl flex items-center gap-3 self-start">
-                  <FaClock className="text-indigo-100" />
-                  <span className="text-xs font-bold tracking-widest uppercase">{new Date().toLocaleTimeString()} WIB</span>
-                </div>
-              </div>
-              <div className="md:w-[65%] p-12 space-y-8">
-                <div className="grid grid-cols-1 gap-8 text-left">
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nama Pengunjung</label>
-                    <div className="flex items-center bg-slate-50 rounded-3xl px-6 py-1 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
-                      <FaUserCheck className="text-slate-300 mr-3" />
-                      <input type="text" className="w-full py-4 bg-transparent outline-none text-sm font-bold" placeholder="Contoh: Zaid" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Instansi Asal</label>
-                    <div className="flex items-center bg-slate-50 rounded-3xl px-6 py-1 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
-                      <FaBuildingUser className="text-slate-300 mr-3" />
-                      <input type="text" className="w-full py-4 bg-transparent outline-none text-sm font-bold" placeholder="Contoh: Universitas Pamulang" />
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full py-6 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-[25px] shadow-xl shadow-indigo-100 transition-all transform active:scale-[0.98] uppercase tracking-widest">
-                  Simpan Kunjungan
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* FORM PAKET VIEW */}
-        {activeTab === "parcel" && (
-          <div className="max-w-4xl mx-auto animate-in zoom-in-95 duration-500 text-left">
-            {/* <button onClick={() => setActiveTab("dashboard")} className="flex items-center gap-2 font-black text-slate-400 hover:text-orange-600 transition-colors mb-10 text-sm uppercase tracking-widest">
-              <IoArrowBack size={18} /> Kembali
-            </button> */}
-            <div className="bg-white rounded-[50px] shadow-2xl shadow-orange-100/50 overflow-hidden flex flex-col md:flex-row border border-white">
-              <div className="md:w-[35%] bg-orange-500 p-12 text-white flex flex-col justify-between">
-                <div>
-                  <h2 className="text-4xl font-black leading-tight mb-6">Log Kiriman Paket.</h2>
-                  <p className="text-orange-50 text-sm leading-relaxed font-medium">Pencatatan barang masuk dari ekspedisi untuk memastikan paket sampai ke penerima yang tepat.</p>
-                </div>
-                <FaBoxOpen size={120} className="text-orange-400/30 self-center" />
-              </div>
-              <div className="md:w-[65%] p-12 space-y-8">
-                <div className="space-y-6 text-left">
-                  <div className="space-y-2 text-left">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Ekspedisi / Kurir</label>
-                    <div className="flex items-center bg-slate-50 rounded-3xl px-6 py-1 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-orange-500 transition-all">
-                      <FaTruckFast className="text-slate-300 mr-3" />
-                      <input type="text" className="w-full py-4 bg-transparent outline-none text-sm font-bold" placeholder="Contoh: JNE / GrabExpress" />
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-left">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Ditujukan Kepada</label>
-                    <div className="flex items-center bg-slate-50 rounded-3xl px-6 py-1 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-orange-500 transition-all">
-                      <FaUserCheck className="text-slate-300 mr-3" />
-                      <input type="text" className="w-full py-4 bg-transparent outline-none text-sm font-bold" placeholder="Nama Staf / Dosen..." />
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full py-6 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-[25px] shadow-xl shadow-orange-100 transition-all transform active:scale-[0.98] uppercase tracking-widest">
-                  Konfirmasi Paket
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 4. SAFETY VIEW: Jika menu diklik tapi kodenya belum dibuat */}
-        {!["dashboard", "checkin", "parcel"].includes(activeTab) && (
-          <div className="max-w-2xl mx-auto text-left p-20 bg-white rounded-[50px] shadow-xl border border-dashed border-slate-200 flex flex-col items-start">
-            <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center text-slate-400 mb-6">
-              <IoInformationCircle size={40} />
-            </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-2">Segera Hadir.</h2>
-            <p className="text-slate-500 leading-relaxed mb-8">Fitur ini sedang dalam tahap pengembangan oleh Tim Engineer VISTOK.</p>
-            <button
-              onClick={() => setActiveTab("dashboard")}
-              className="px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-indigo-600 transition-all"
-            >
-              Oke, Mengerti
-            </button>
-          </div>
-        )}
-
+        {renderContent()}
       </main>
 
       {/* FOOTER NATIVE */}
@@ -202,5 +107,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
