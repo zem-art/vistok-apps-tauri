@@ -7,8 +7,10 @@ import { MdDashboard } from "react-icons/md";
 import DashboardView from "./apps/dashboardView";
 import CheckinForm from "./apps/checkinForm";
 import ParcelForm from "./apps/parcelForm";
-import PlaceholderPage from "./apps/not_found";
+import PlaceholderPage from "./not_found";
 import ProfileView from "./apps/profileView";
+import AppointmentView from "./apps/AppointmentView";
+import HistoryView from "./apps/HistoryView";
 
 type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile";
 
@@ -44,9 +46,9 @@ export default function App() {
       case "parcel":
         return <ParcelForm onBack={() => setActiveTab("dashboard")} />;
       case "list":
-        return <PlaceholderPage title="Riwayat Log" onBack={() => setActiveTab("dashboard")} />;
+        return <HistoryView onBack={() => setActiveTab("dashboard")} />;
       case "appointments":
-        return <PlaceholderPage title="Janji Temu" onBack={() => setActiveTab("dashboard")} />;
+        return <AppointmentView onBack={() => setActiveTab("dashboard")} />;
       case "info":
         return <PlaceholderPage title="Pusat Informasi" onBack={() => setActiveTab("dashboard")} />;
       case "settings":
