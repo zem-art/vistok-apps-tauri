@@ -9,10 +9,11 @@ import CheckinForm from "./apps/checkinForm";
 import ParcelForm from "./apps/parcelForm";
 import PlaceholderPage from "./not_found";
 import ProfileView from "./apps/profileView";
-import AppointmentView from "./apps/AppointmentView";
-import HistoryView from "./apps/HistoryView";
+import AppointmentView from "./apps/appointmentView";
+import HistoryView from "./apps/historyView";
+import { LoginView } from "./apps/auth/LoginView";
 
-type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile";
+type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile" | "login";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
@@ -55,6 +56,8 @@ export default function App() {
         return <PlaceholderPage title="Sistem & Pengaturan" onBack={() => setActiveTab("dashboard")} />;
       case "profile":
         return <ProfileView onBack={() => setActiveTab("dashboard")} />;
+      case "login":
+        return <LoginView onBack={() => setActiveTab("dashboard")} />;
       default:
         return <DashboardView onSelect={(id: any) => setActiveTab(id)} menuItems={menuItems} colorMap={colorMap} />;
     }
