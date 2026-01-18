@@ -12,10 +12,14 @@ import ProfileView from "./apps/profileView";
 import AppointmentView from "./apps/appointmentView";
 import HistoryView from "./apps/historyView";
 import { LoginView } from "./apps/auth/LoginView";
+import { colorMap } from "./common/const";
 
 type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile" | "login";
 
 export default function App() {
+  // 1. Default awal adalah false (belum login)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  // 2. Default tab setelah login adalah dashboard
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
 
   // DATA GRID DINAMIS
@@ -27,15 +31,6 @@ export default function App() {
     { id: "info", title: "Informasi Staf", desc: "Pusat informasi prosedur dan pengumuman internal kantor.", icon: <IoInformationCircle size={28} />, color: "amber" },
     { id: "settings", title: "Sistem Pengaturan", desc: "Konfigurasi database, printer label, dan profil akun.", icon: <IoSettingsSharp size={28} />, color: "slate" },
   ];
-
-  const colorMap: Record<string, string> = {
-    indigo: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:shadow-indigo-200/50",
-    orange: "bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:shadow-orange-200/50",
-    emerald: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:shadow-emerald-200/50",
-    blue: "bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:shadow-blue-200/50",
-    amber: "bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:shadow-amber-200/50",
-    slate: "bg-slate-50 text-slate-600 group-hover:bg-slate-900 group-hover:shadow-slate-300/50",
-  };
 
   // Fungsi untuk memanggil konten halaman berdasarkan tab aktif
   const renderContent = () => {
@@ -55,13 +50,20 @@ export default function App() {
       case "settings":
         return <PlaceholderPage title="Sistem & Pengaturan" onBack={() => setActiveTab("dashboard")} />;
       case "profile":
-        return <ProfileView onBack={() => setActiveTab("dashboard")} />;
-      case "login":
-        return <LoginView onBack={() => setActiveTab("dashboard")} />;
+        return <ProfileView onLogoutAction={() => setIsLoggedIn(false)} onBack={() => setActiveTab("dashboard")} />;
       default:
         return <DashboardView onSelect={(id: any) => setActiveTab(id)} menuItems={menuItems} colorMap={colorMap} />;
     }
   };
+
+  // --- LOGIKA UTAMA: PROTEKSI HALAMAN ---
+  if (!isLoggedIn) {
+    return (
+      <LoginView
+        onLoginSuccess={() => setIsLoggedIn(true)}
+      />
+    );
+  }
 
 
   return (

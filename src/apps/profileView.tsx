@@ -5,9 +5,14 @@ import { FaUserShield, FaBriefcase, FaEdit } from 'react-icons/fa';
 // Definisikan props untuk ProfileView jika ingin tombol back berfungsi
 interface ProfileViewProps {
     onBack: () => void;
+    onLogoutAction: () => void;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ onBack }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ onLogoutAction, onBack }: any) => {
+    const handleLoginLogout = () => {
+        onLogoutAction()
+        onBack()
+    }
     return (
         <div className="max-w-4xl mx-auto animate-in zoom-in-95 duration-500 text-left">
             {/* <button
@@ -72,10 +77,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onBack }) => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col md:flex-row gap-4">
-                    <button className="flex-1 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-black rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3">
+                    <button className="cursor-pointer flex-1 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-black rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3">
                         <FaEdit size={20} /> Edit Profil
                     </button>
-                    <button className="flex-1 py-4 bg-red-500 hover:bg-red-600 text-white font-black rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3">
+                    <button onClick={() => handleLoginLogout()} className="cursor-pointer flex-1 py-4 bg-red-500 hover:bg-red-600 text-white font-black rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3">
                         <IoLogOut size={22} /> Logout
                     </button>
                 </div>
