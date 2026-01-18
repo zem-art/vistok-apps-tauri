@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "Vistok - Guest Management System",
-        "width": 1250,
-        "height": 850,
+        "width": 1350,
+        "height": 950,
         "resizable": true,
         "fullscreen": false,
         "center": true

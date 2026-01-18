@@ -8,8 +8,9 @@ import DashboardView from "./apps/dashboardView";
 import CheckinForm from "./apps/checkinForm";
 import ParcelForm from "./apps/parcelForm";
 import PlaceholderPage from "./apps/not_found";
+import ProfileView from "./apps/profileView";
 
-type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings";
+type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
@@ -50,6 +51,8 @@ export default function App() {
         return <PlaceholderPage title="Pusat Informasi" onBack={() => setActiveTab("dashboard")} />;
       case "settings":
         return <PlaceholderPage title="Sistem & Pengaturan" onBack={() => setActiveTab("dashboard")} />;
+      case "profile":
+        return <ProfileView onBack={() => setActiveTab("dashboard")} />;
       default:
         return <DashboardView onSelect={(id: any) => setActiveTab(id)} menuItems={menuItems} colorMap={colorMap} />;
     }
@@ -76,13 +79,13 @@ export default function App() {
           <button className="p-3 bg-white rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
             <IoNotifications size={22} className="text-slate-600" />
           </button>
-          <div className="bg-white p-1.5 pr-5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
+          <button onClick={() => setActiveTab('profile')} className="cursor-pointer bg-white p-1.5 pr-5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
             <img src="https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff" className="w-10 h-10 rounded-xl" alt="avatar" />
             <div className="text-left">
               <p className="text-xs font-bold text-slate-900">Admin Zaid</p>
               <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Software Engineer</p>
             </div>
-          </div>
+          </button>
         </div>
       </div>
 
