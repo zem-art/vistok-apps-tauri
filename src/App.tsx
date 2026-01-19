@@ -87,7 +87,7 @@ export default function App() {
           <button onClick={() => setActiveTab('profile')} className="cursor-pointer bg-white p-1.5 pr-5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
             <img src="https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff" className="w-10 h-10 rounded-xl" alt="avatar" />
             <div className="text-left">
-              <p className="text-xs font-bold text-slate-900">Admin Zaid</p>
+              <p className="text-xs font-bold text-slate-900">Admin</p>
               <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Software Engineer</p>
             </div>
           </button>
