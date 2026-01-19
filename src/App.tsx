@@ -18,7 +18,6 @@ type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "i
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  // 2. Default tab setelah login adalah dashboard
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
 
   // DATA GRID DINAMIS
