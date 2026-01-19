@@ -17,7 +17,6 @@ import { colorMap } from "./common/const";
 type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile" | "login";
 
 export default function App() {
-  // 1. Default awal adalah false (belum login)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   // 2. Default tab setelah login adalah dashboard
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
