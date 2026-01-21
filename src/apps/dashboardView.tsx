@@ -14,8 +14,15 @@ export default function DashboardView({ menuItems, colorMap, onSelect }: any) {
                         <div className={`w-16 h-16 rounded-[22px] flex items-center justify-center mb-6 transition-all duration-500 group-hover:text-white ${colorMap[item.color]}`}>
                             {item.icon}
                         </div>
-                        <h3 className="text-2xl font-black mb-3 text-slate-900 leading-none">{item.title}</h3>
-                        <p className="text-slate-400 text-sm leading-relaxed mb-8">{item.desc}</p>
+
+                        <h3 className="text-2xl font-black mb-3 text-slate-900 leading-none">
+                            {item.title}
+                        </h3>
+
+                        <p className="text-slate-400 text-sm leading-relaxed mb-8">
+                            {item.desc}
+                        </p>
+
                         <div className="mt-auto flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
                             Akses Menu <IoChevronForward className="text-indigo-600" />
                         </div>

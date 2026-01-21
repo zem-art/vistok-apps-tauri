@@ -67,9 +67,7 @@ export default function App() {
 
 
   return (
-    /* Gunakan h-screen dan overflow-y-auto untuk memastikan scrollbar konsisten */
     <div className="min-h-screen w-full bg-[#F0F2F5] text-slate-800 font-sans selection:bg-indigo-100 overflow-x-hidden">
-
       {/* Header Area - Sticky agar tidak "hilang" saat scroll di layar kecil */}
       <header className="sticky top-0 z-30 bg-[#F0F2F5]/80 backdrop-blur-md px-6 py-4 md:px-10 md:py-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -85,32 +83,42 @@ export default function App() {
               </p>
             </div>
           </div>
+
+          {/* Bagian Waktu di apps.tsx */}
           <div className="flex items-center gap-2 md:gap-4">
-            <div className="hidden lg:flex flex-col items-end border-r border-slate-200 pr-4">
-              <span className="text-[14px] font-black text-slate-900 tabular-nums">
+            {/* Gunakan sm:flex agar jam muncul lebih awal (tidak nunggu layar lebar/lg) */}
+            <div className="hidden sm:flex flex-col items-end border-r border-slate-200 pr-4 min-w-[80px] md:min-w-[100px]">
+              <span className="text-[12px] md:text-[14px] font-black text-slate-900 tabular-nums leading-none">
                 {formattedTime}
               </span>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+              <span className="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">
                 {formattedDate}
               </span>
             </div>
 
-            <button className="hidden sm:block p-3 bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
-              <IoNotifications size={20} className="text-slate-600" />
+            {/* Tombol Notifikasi tetap muncul namun lebih kecil di mobile */}
+            <button className="p-2.5 md:p-3 bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
+              <IoNotifications size={18} className="text-slate-600 md:text-[20px]" />
             </button>
 
+            {/* Profil Button */}
             <button
               onClick={() => setActiveTab('profile')}
               className="cursor-pointer bg-white p-1 md:p-1.5 pr-3 md:pr-5 rounded-xl md:rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 md:gap-3 hover:border-indigo-300 transition-colors"
             >
               <img
-                src="https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff"
-                className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl"
+                src={`https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff`}
+                className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl shadow-inner"
                 alt="avatar"
               />
-              <div className="text-left xs:block">
-                <p className="text-[10px] md:text-xs font-bold text-slate-900 leading-tight">{greeting}, Admin</p>
-                <p className="text-[8px] md:text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Engineer</p>
+              {/* Gunakan block agar nama tetap muncul, hanya ganti ukuran font */}
+              <div className="text-left">
+                <p className="text-[9px] md:text-xs font-bold text-slate-900 leading-tight">
+                  {greeting}, Admin
+                </p>
+                <p className="text-[7px] md:text-[10px] text-slate-400 font-medium uppercase tracking-tighter">
+                  Engineer
+                </p>
               </div>
             </button>
           </div>
