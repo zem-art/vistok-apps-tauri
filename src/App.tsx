@@ -65,53 +65,75 @@ export default function App() {
 
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] text-slate-800 font-sans p-6 md:p-10 text-left">
-      {/* Header Area */}
-      <div className="max-w-6xl mx-auto flex justify-between items-center mb-12">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-indigo-200">
-            <MdDashboard size={32} />
-          </div>
-          <div className="text-left">
-            <h1 className="text-2xl font-black tracking-tighter text-slate-900">VISTOK</h1>
-            <p className="text-[11px] font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-2">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-              Receptionist Desk
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="p-3 bg-white rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
-            <IoNotifications size={22} className="text-slate-600" />
-          </button>
-          <button onClick={() => setActiveTab('profile')} className="cursor-pointer bg-white p-1.5 pr-5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
-            <img src="https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff" className="w-10 h-10 rounded-xl" alt="avatar" />
-            <div className="text-left">
-              <p className="text-xs font-bold text-slate-900">Admin</p>
-              <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Software Engineer</p>
-            </div>
-          </button>
-        </div>
-      </div>
+    /* Gunakan h-screen dan overflow-y-auto untuk memastikan scrollbar konsisten */
+    <div className="min-h-screen w-full bg-[#F0F2F5] text-slate-800 font-sans selection:bg-indigo-100 overflow-x-hidden">
 
-      <main className="max-w-6xl mx-auto">
-        {/* Tombol Back Global: Muncul otomatis jika tidak di Dashboard */}
+      {/* Header Area - Sticky agar tidak "hilang" saat scroll di layar kecil */}
+      <header className="sticky top-0 z-30 bg-[#F0F2F5]/80 backdrop-blur-md px-6 py-4 md:px-10 md:py-6">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200 shrink-0">
+              <MdDashboard className="text-xl md:text-3xl" />
+            </div>
+            <div className="text-left">
+              <h1 className="text-lg md:text-2xl font-black tracking-tighter text-slate-900 leading-none">VISTOK</h1>
+              <p className="text-[9px] md:text-[11px] font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-1.5 mt-1">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span className="truncate">Receptionist Desk</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 md:gap-4">
+            <button className="hidden sm:block p-3 bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
+              <IoNotifications size={20} className="text-slate-600" />
+            </button>
+
+            <button
+              onClick={() => setActiveTab('profile')}
+              className="cursor-pointer bg-white p-1 md:p-1.5 pr-3 md:pr-5 rounded-xl md:rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 md:gap-3 hover:border-indigo-300 transition-colors"
+            >
+              <img
+                src="https://ui-avatars.com/api/?name=Admin+Zaid&background=4f46e5&color=fff"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl"
+                alt="avatar"
+              />
+              <div className="text-left xs:block">
+                <p className="text-[10px] md:text-xs font-bold text-slate-900 leading-tight">Admin</p>
+                <p className="text-[8px] md:text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Engineer</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-6xl mx-auto px-6 md:px-10 pb-32">
         {activeTab !== "dashboard" && (
           <button
             onClick={() => setActiveTab("dashboard")}
-            className="cursor-pointer flex items-center gap-2 font-black text-slate-400 hover:text-indigo-600 transition-colors mb-8 text-sm uppercase tracking-widest"
+            className="group cursor-pointer flex items-center gap-2 font-black text-slate-400 hover:text-indigo-600 transition-colors mb-6 md:mb-8 text-[10px] md:text-sm uppercase tracking-widest"
           >
-            <IoArrowBack size={18} /> Kembali ke Menu Utama
+            <IoArrowBack size={18} className="group-hover:-translate-x-1 transition-transform" />
+            Kembali ke Menu Utama
           </button>
         )}
-        {renderContent()}
+
+        {/* Container Content - Pastikan renderContent menggunakan Grid responsif */}
+        <div className="w-full">
+          {renderContent()}
+        </div>
       </main>
 
-      {/* FOOTER NATIVE */}
-      <div className="fixed bottom-10 left-10 flex items-center gap-3 px-5 py-2.5 bg-white/70 backdrop-blur-xl rounded-2xl border border-white shadow-sm">
-        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-        <span className="text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">Vistok Engine v1.0.0</span>
-      </div>
+      {/* FOOTER - Diubah dari fixed absolute ke fixed bottom dengan penyesuaian mobile */}
+      <footer className="fixed bottom-6 left-6 md:bottom-10 md:left-10 z-40">
+        <div className="flex items-center gap-3 px-4 py-2 md:px-5 md:py-2.5 bg-white/80 backdrop-blur-xl rounded-xl md:rounded-2xl border border-white/50 shadow-lg shadow-slate-200/50">
+          <div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+          <span className="text-[8px] md:text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">
+            Vistok Engine <span className="text-indigo-600">v1.0.0</span>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 };
