@@ -13,12 +13,14 @@ import AppointmentView from "./apps/appointmentView";
 import HistoryView from "./apps/historyView";
 import { LoginView } from "./apps/auth/LoginView";
 import { colorMap } from "./common/const";
+import { useDateTime } from "./common/hooks/useDateTime";
 
 type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "info" | "settings" | "profile" | "login";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
+  const { formattedDate, formattedTime, greeting } = useDateTime()
 
   // DATA GRID DINAMIS
   const menuItems = [
@@ -83,8 +85,16 @@ export default function App() {
               </p>
             </div>
           </div>
-
           <div className="flex items-center gap-2 md:gap-4">
+            <div className="hidden lg:flex flex-col items-end border-r border-slate-200 pr-4">
+              <span className="text-[14px] font-black text-slate-900 tabular-nums">
+                {formattedTime}
+              </span>
+              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                {formattedDate}
+              </span>
+            </div>
+
             <button className="hidden sm:block p-3 bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-all">
               <IoNotifications size={20} className="text-slate-600" />
             </button>
@@ -99,7 +109,7 @@ export default function App() {
                 alt="avatar"
               />
               <div className="text-left xs:block">
-                <p className="text-[10px] md:text-xs font-bold text-slate-900 leading-tight">Admin</p>
+                <p className="text-[10px] md:text-xs font-bold text-slate-900 leading-tight">{greeting}, Admin</p>
                 <p className="text-[8px] md:text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Engineer</p>
               </div>
             </button>
