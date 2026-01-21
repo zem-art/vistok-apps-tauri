@@ -20,7 +20,7 @@ type TabType = "dashboard" | "checkin" | "parcel" | "list" | "appointments" | "i
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
-  const { formattedDate, formattedTime, greeting } = useDateTime()
+  const { formattedDate, formattedTime, greeting } = useDateTime();
 
   // DATA GRID DINAMIS
   const menuItems = [
